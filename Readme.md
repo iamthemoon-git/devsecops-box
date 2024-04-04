@@ -51,5 +51,5 @@ To build the Docker image, follow these steps:
    Open a terminal and navigate to the directory containing the Dockerfile. Then run the following command to build the Docker image, replacing `devsecops-image` with your preferred image name:
 
    ```bash
-   docker build -t devsecops-image .
+   docker build --platform linux/amd64 -t devsecops-box .
 # devsecops-box

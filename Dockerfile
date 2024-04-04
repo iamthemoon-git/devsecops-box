@@ -9,21 +9,44 @@ LABEL description="DevSecOps Networking and Security Tools Container"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install networking and security tools
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y
+
+RUN apt-get install -y \
     nmap \
-    tshark \
-    metasploit-framework \
+    tshark
+
+RUN apt-get install -y \
+    netcat \
+    tcpdump \
+    mtr
+
+RUN apt-get install -y \
     nikto \
-    sqlmap \
+    sqlmap
+
+RUN apt-get install -y \
     openssl \
-    iputils-ping \
+    iputils-ping
+
+RUN apt-get install -y \
     net-tools \
     curl \
     wget \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+    git
 
-# Additional setup or configuration commands here
+# install metasploit
+RUN wget http://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run
 
-# Set the default command or entry point
-CMD ["/bin/bash"]
+RUN chmod +x metasploit-latest-linux-x64-installer.run 
+
+RUN apt-get install apache2 -y
+
+RUN rm -rf /var/lib/apt/lists/*
+
+WORKDIR var/www/html
+
+COPY index.html index.html
+
+
+#now start the server
+CMD ["apachectl", "-D", "FOREGROUND"]
